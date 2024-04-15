@@ -1,5 +1,12 @@
+#ifndef UTILS
+#define UTILS
 #include <SDL.h>
-struct anim {
+struct Point2D
+{
+	int x,y;	
+};
+
+struct Anim {
     int start;
     int end;
     int frame_rate;
@@ -16,3 +23,5 @@ struct Clock {
         last_tick_time = current_tick;
     }
 };
+
+#endif

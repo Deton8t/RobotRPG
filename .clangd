@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: [-std=c++20, -I/opt/homebrew/Cellar/sdl2/2.28.5/include/SDL2, -I/opt/homebrew/Cellar/sdl2_image/2.8.2/include/SDL2]
+  Add: [-std=c++20, -I/opt/homebrew/Cellar/sdl2/2.28.5/include/SDL2, -I/opt/homebrew/Cellar/sdl2_image/2.8.2_1/include/SDL2, -I/opt/homebrew/Cellar/sdl2_mixer/2.8.0/include/SDL2]

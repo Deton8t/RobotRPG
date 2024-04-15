@@ -1,5 +1,6 @@
+#ifndef SPRITE
+#define SPRITE
 #include <map>
-
 #include "SDL_render.h"
 #include <SDL.h>
 #include <SDL_image.h>
@@ -14,6 +15,7 @@ public:
     SDL_Texture* sprite_sheet;
     SDL_Rect frame;
     SDL_Rect position_rect;
+    Sprite(){}
     explicit Sprite(SDL_Renderer* _renderer, std::string file_path, int width, int height,int x, int y)
     {
         sprite_sheet = SDL_CreateTextureFromSurface(_renderer,IMG_Load(file_path.c_str()));
@@ -22,18 +24,23 @@ public:
         frame.w = width;
         frame.x = 0;
         frame.y = 0;
-        position_rect.h = height*4;
-        position_rect.w = width*4;
+        position_rect.h = height;
+        position_rect.w = width;
         position_rect.x = x;
         position_rect.y = y;
 
     }
 
-    void load_sprite(SDL_Renderer* renderer)
+    void load_sprite(SDL_Renderer* renderer, bool is_mirrored)
     {
-        SDL_RenderCopy(renderer, sprite_sheet, &frame, &position_rect); 
+        if(is_mirrored)
+        {
+            SDL_RenderCopyEx(renderer, sprite_sheet, &frame, &position_rect, 0, NULL, SDL_FLIP_HORIZONTAL); 
+            return;
+        }
+        SDL_RenderCopy(renderer,sprite_sheet,&frame,&position_rect);
     }
-    void set_sprite(int row, int col)
+    void set_frame(int row, int col)
     {
        frame.x = col*frame.w;
        frame.y = row*frame.h;
@@ -42,15 +49,15 @@ public:
 class Animated_Sprite
 {
     public:
-        Sprite sprite;
-        std::map<std::string,anim> animations; 
+        Sprite current_sprite;
+        std::map<std::string,Anim> animations; 
         int current_frame;
         bool is_looping;
         int idle_frame;
         std::string current_anim_name;
         int time_between_frames_ms;
-
-        explicit Animated_Sprite(SDL_Renderer* renderer, std::string file_path, int width, int height, int x, int y) : sprite(Sprite(renderer,file_path,width,height,x,y))
+        Animated_Sprite() : current_sprite(Sprite()){};
+        explicit Animated_Sprite(SDL_Renderer* renderer, std::string file_path, int width, int height, int x, int y) :current_sprite(Sprite(renderer,file_path,width,height,x,y))
         {
             idle_frame = 0;
             current_frame = 0;
@@ -59,7 +66,7 @@ class Animated_Sprite
         }
         void add_animation(std::string name, int start_frame, int end_frame, int frame_rate)
         {
-            anim animation = {start_frame,end_frame,frame_rate};
+            Anim animation = {start_frame,end_frame,frame_rate};
             animations.insert({name,animation}); 
         }
         void start_animation(std::string name, bool is_loop)
@@ -70,12 +77,12 @@ class Animated_Sprite
 
 
 
-        void update(SDL_Renderer* renderer,Clock clock)
+        void update(SDL_Renderer* renderer,Clock clock, bool is_facing_left)
         {
             time_between_frames_ms += clock.delta_ms;
             if(current_anim_name != "none")
             {
-              anim animation = animations[current_anim_name];  
+              Anim animation = animations[current_anim_name];  
               if(can_change_frame(animation.frame_rate))
               {    
                   if(current_frame >= animation.end)
@@ -96,9 +103,9 @@ class Animated_Sprite
                   }
               }
             }
-            sprite.set_sprite(0,current_frame);
+            current_sprite.set_frame(0,current_frame);
             // std::cout << current_frame << "\n";
-            sprite.load_sprite(renderer);
+            current_sprite.load_sprite(renderer,is_facing_left);
             return;
         }
         void cancel_animation()
@@ -120,6 +127,5 @@ private:
 
 };
 
-/* Creates a sprite when given a filepath to spritesheet
-*/
-// Sets the sprite to be loaded based on which sprite it is in spritesheet (start at 0)
+#endif
+
