@@ -1,6 +1,7 @@
 #ifndef SPRITE
 #define SPRITE
 #include <map>
+#include "SDL_error.h"
 #include "SDL_render.h"
 #include <SDL.h>
 #include <SDL_image.h>
@@ -16,10 +17,14 @@ public:
     SDL_Rect frame;
     SDL_Rect position_rect;
     Sprite(){}
-    explicit Sprite(SDL_Renderer* _renderer, std::string file_path, int width, int height,int x, int y)
+    Sprite(SDL_Renderer* _renderer, std::string file_path, int width, int height,int x, int y)
     {
         sprite_sheet = SDL_CreateTextureFromSurface(_renderer,IMG_Load(file_path.c_str()));
 
+        if(sprite_sheet == nullptr)
+        {
+            std::cout << SDL_GetError() << "\n"; 
+        }
         frame.h = height;
         frame.w = width;
         frame.x = 0;
@@ -38,7 +43,10 @@ public:
             SDL_RenderCopyEx(renderer, sprite_sheet, &frame, &position_rect, 0, NULL, SDL_FLIP_HORIZONTAL); 
             return;
         }
-        SDL_RenderCopy(renderer,sprite_sheet,&frame,&position_rect);
+        if(SDL_RenderCopy(renderer,sprite_sheet,&frame,&position_rect) < 0)
+        {
+            std::cout << SDL_GetError() << "\n";
+        }
     }
     void set_frame(int row, int col)
     {
@@ -57,7 +65,7 @@ class Animated_Sprite
         std::string current_anim_name;
         int time_between_frames_ms;
         Animated_Sprite() : current_sprite(Sprite()){};
-        explicit Animated_Sprite(SDL_Renderer* renderer, std::string file_path, int width, int height, int x, int y) :current_sprite(Sprite(renderer,file_path,width,height,x,y))
+        Animated_Sprite(SDL_Renderer* renderer, std::string file_path, int width, int height, int x, int y) :current_sprite(Sprite(renderer,file_path,width,height,x,y))
         {
             idle_frame = 0;
             current_frame = 0;
@@ -117,7 +125,7 @@ private:
         bool can_change_frame(int frame_rate)
         {
            int frame_rate_in_ms = 1000/frame_rate;
-           if(frame_rate_in_ms < time_between_frames_ms)
+           if( time_between_frames_ms >= frame_rate_in_ms ) 
            {
                time_between_frames_ms = 0;
                return true;

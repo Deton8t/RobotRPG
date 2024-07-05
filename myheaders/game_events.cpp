@@ -3,7 +3,6 @@
 
 namespace game_events
 {
-        
 };
 
 #endif

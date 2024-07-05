@@ -1,9 +1,13 @@
 #ifndef UTILS
 #define UTILS
 #include <SDL.h>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+
 struct Point2D
 {
-	int x,y;	
+    int x,y;	
 };
 
 struct Anim {
@@ -23,5 +27,18 @@ struct Clock {
         last_tick_time = current_tick;
     }
 };
+bool is_colliding(SDL_Rect a, SDL_Rect b)
+{
+    if(
+            a.x < b.x + b.w &&
+            a.x + a.w > b.x &&
+            a.y < b.y + b.h &&
+            a.y + a.h > b.y
+      )
+    {
+        return true;
+    }
+    return false;
+}
 
 #endif

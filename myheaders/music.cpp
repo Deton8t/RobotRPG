@@ -40,6 +40,11 @@ namespace music {
         Mix_PlayChannel(-1, sound, 0);
     }
 
+    void play_sound_from_file(std::string file_name)
+    {
+        play_sound(load_sound(file_name.c_str()));
+    }
+
 }
 
 #endif
