@@ -33,9 +33,14 @@ public:
         position_rect.w = width;
         position_rect.x = x;
         position_rect.y = y;
-
     }
 
+    Sprite(SDL_Texture* _sprite_sheet, int lw, int frame_num ) {
+        sprite_sheet = _sprite_sheet;
+        frame = {frame_num*lw, 0, lw,lw};
+        position_rect = {0,0,lw,lw};
+    }
+    
     void load_sprite(SDL_Renderer* renderer, bool is_mirrored)
     {
         if(is_mirrored)

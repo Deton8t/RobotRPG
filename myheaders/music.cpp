@@ -25,7 +25,7 @@ namespace music {
         {
             std::cout << "Couldn't load song :(: " << Mix_GetError() << "\n";
         }
-        Mix_PlayMusic(song, -1*is_looping );
+        //Mix_PlayMusic(song, -1*is_looping );
     }
 
     // Stores audio clip into memory

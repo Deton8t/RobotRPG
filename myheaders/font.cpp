@@ -24,7 +24,7 @@ namespace font {
     }
 
     void render(TTF_Font* font, SDL_Rect* dst, std::string message) {
-        dst->w = message.size()*20;
+        //dst->w = message.size()*20;
         SDL_Texture* text = SDL_CreateTextureFromSurface(globals::renderer, TTF_RenderUTF8_Solid(font,message.c_str(), {255,255,255,255}));
         if(text == NULL)
         {

@@ -3,6 +3,7 @@
 #include <SDL_mixer.h>
 #include <chrono>
 #include <cstdint>
+#include <cstdlib>
 #include <iostream>
 #include <thread>
 #include "SDL_render.h"
@@ -17,6 +18,8 @@
 #include "./myheaders/font.cpp"
 #include "./myheaders/graphics_helpers.cpp"
 #include "./myheaders/state.cpp"
+#include "./myheaders/menus.cpp"
+#include "./myheaders/items.cpp"
 
 #define SCREEN_W 1024
 #define SCREEN_H 640
@@ -63,12 +66,22 @@ int main()
                     case SDL_KEYDOWN:
                         {
                             player.handle_keydown(event.key.keysym.scancode);
-                            if(event.key.keysym.scancode == SDL_SCANCODE_R)
-                            {
+                            if(event.key.keysym.scancode == SDL_SCANCODE_R) {
                                 stage::set(stage_names::RANDOM);
                             }
-                            if(event.key.keysym.scancode == SDL_SCANCODE_I && dialogue::is_on() == false)
+                            if(event.key.keysym.scancode == SDL_SCANCODE_I && dialogue::is_on() == false) {
                                 state = STATE_INVENTORY;
+                                std::string item = "item ";
+                                item += std::to_string(items::inventory::player_items.size());
+                                std::vector<items::stat> stats = std::vector<items::stat>();
+                                stats.push_back({"atk",0,11});
+                                stats.push_back({"def",0,int8_t(rand()%20)});
+                                stats.push_back({"def",0,int8_t(rand()%20)});
+                                stats.push_back({"def",0,int8_t(rand()%20)});
+                                stats.push_back({"def",0,int8_t(rand()%20)});
+                                stats.push_back({"def",0,int8_t(rand()%20)});
+                                items::give({nullptr,item,stats,rand()%4});
+                            }
                             break;
                         }
                     case SDL_KEYUP:
@@ -84,7 +97,8 @@ int main()
         player.update_sprite(renderer,clock);
         if(state == STATE_INVENTORY) {
             player.pause();
-            graphics_helpers::render_ui_box(0,0,16,16);
+            items::inventory::toggle();            
+            items::inventory::preview();
             while(SDL_PollEvent(&event)) 
            {
                 switch(event.type)
@@ -96,7 +110,7 @@ int main()
                         }
                     case SDL_KEYDOWN:
                         {
-                            state_funcs::handle_keydown(event.key.keysym.scancode,&state);
+                            state::in_inventory::handle_keydown(event.key.keysym.scancode,&state);
                             break;
                         }
                 }

@@ -26,26 +26,22 @@ namespace dialogue {
     int index = -1; 
     std::vector<std::string> dialogue = std::vector<std::string>();
     Sprite* talking_sprite = nullptr;
-    bool is_on()
-    {
+    bool is_on() {
         return index != -1;
     }
-    void start(std::vector<std::string> _dialogue, Sprite* _talking_sprite)
-    {
+    void start(std::vector<std::string> _dialogue, Sprite* _talking_sprite) {
         index = 0;
         dialogue = _dialogue;
         talking_sprite = _talking_sprite;
         music::play_sound_from_file("./sounds/dialogue_beep.mp3");
     }
 
-    void stop()
-    {
+    void stop() {
         index = -1;
         dialogue.clear();
         talking_sprite = nullptr;
     }
-    void render_box() 
-    {
+    void render_box() {
         if(index == -1)
         {
             return;
@@ -70,6 +66,7 @@ namespace dialogue {
             int offset = 0;
             while(i+CHARS_PER_LINE < dialogue[index].size() && dialogue[index][i+CHARS_PER_LINE-offset] != ' ')
                 offset++;
+            font_rect.w = dialogue[index].substr(i,CHARS_PER_LINE-offset).size() * 18;
             font::render(font::cave_story, &font_rect, dialogue[index].substr(i,CHARS_PER_LINE-offset));
             i = i - offset + 1;
             font_rect.y += 30;
@@ -80,13 +77,11 @@ namespace dialogue {
     void advance() {
         index++;
         music::play_sound_from_file("./sounds/dialogue_beep.mp3");
-        std::cout << "adv\n";
         if(index >= dialogue.size())
             stop();
-
     }
-    void clear()
-    {
+
+    void clear() {
         index=0;
         dialogue.clear();
         talking_sprite = nullptr;
