@@ -17,19 +17,24 @@
 
 namespace items {
     namespace {
-        struct attributes{
-            int8_t hp,mp,atk,def,agi;
-        };
-        struct stat {
+        typedef enum {
+            head,
+            chest,
+            legs,
+            boots
+        } item_type;
+
+        struct i_stat {
             std::string name;
-            bool percentage;
+            bool is_percentage;
             int8_t value;
         };
         struct item {
             Sprite* sprite;
             std::string name;
-            std::vector<stat> stats;
+            std::vector<i_stat> stats;
             int sprite_id;
+            item_type type;
         };
     }
         typedef enum {
@@ -37,7 +42,7 @@ namespace items {
             PREVIEW,
             EQUIP
         } INV_State;
-
+    
     namespace inventory {
         INV_State inv_state;
         u_int8_t index = 0;
@@ -97,7 +102,7 @@ namespace items {
             menus::display_text(name_box,current->name,20);
             SDL_Rect stat_table_box = SDL_Rect();
             // I luv u jaden <3
-            std::vector<stat>* current_s = &current->stats; 
+            std::vector<i_stat>* current_s = &current->stats; 
             for(int i = 0; i < current_s->size(); i++)
             {
                 u_int8_t col = i / 4;
@@ -117,7 +122,7 @@ namespace items {
     }
 
     // item_id used to render the sprite from one big item spritesheet
-    void build_and_give(int item_sprite_id, std::string name, std::vector<stat> stats) {
+    void build_and_give(int item_sprite_id, std::string name, std::vector<i_stat> stats) {
         give({nullptr, name, stats, item_sprite_id});
     }
 

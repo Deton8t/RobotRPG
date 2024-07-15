@@ -73,7 +73,7 @@ int main()
                                 state = STATE_INVENTORY;
                                 std::string item = "item ";
                                 item += std::to_string(items::inventory::player_items.size());
-                                std::vector<items::stat> stats = std::vector<items::stat>();
+                                std::vector<items::i_stat> stats = std::vector<items::i_stat>();
                                 stats.push_back({"atk",0,11});
                                 stats.push_back({"def",0,int8_t(rand()%20)});
                                 stats.push_back({"def",0,int8_t(rand()%20)});
