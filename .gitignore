@@ -1,1 +1,3 @@
-./acesprite/*
+acesprite/*
+./.clangd
+./.DS_Store
