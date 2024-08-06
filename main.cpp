@@ -20,7 +20,9 @@
 #include "./myheaders/state.cpp"
 #include "./myheaders/menus.cpp"
 #include "./myheaders/items.cpp"
-
+#include "./myheaders/party.cpp"
+#include "./myheaders/save_load.cpp"
+#include "./myheaders/inventory.cpp"
 #define SCREEN_W 1024
 #define SCREEN_H 640
 
@@ -45,8 +47,9 @@ int main()
     globals::clock = &clock;
     globals::item_sheet = SDL_CreateTextureFromSurface(renderer, IMG_Load("./images/sprites/item_sheets.png"));
     stage::set(stage_names::TEST);
+    party::start();
+    load::items();
     uint8_t state = STATE_NORMAL;
-
     while(game_is_running)
     {
         SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
@@ -61,6 +64,9 @@ int main()
                     case SDL_QUIT:
                         {
                             game_is_running = false;
+                            save::items();
+                            save::party();
+                            save::stage();
                             break;
                         }
                     case SDL_KEYDOWN:
@@ -71,17 +77,17 @@ int main()
                             }
                             if(event.key.keysym.scancode == SDL_SCANCODE_I && dialogue::is_on() == false) {
                                 state = STATE_INVENTORY;
-                                std::string item = "item ";
-                                item += std::to_string(items::inventory::player_items.size());
-                                std::vector<items::i_stat> stats = std::vector<items::i_stat>();
-                                stats.push_back({"atk",0,11});
-                                stats.push_back({"def",0,int8_t(rand()%20)});
-                                stats.push_back({"def",0,int8_t(rand()%20)});
-                                stats.push_back({"def",0,int8_t(rand()%20)});
-                                stats.push_back({"def",0,int8_t(rand()%20)});
-                                stats.push_back({"def",0,int8_t(rand()%20)});
-                                items::give({nullptr,item,stats,rand()%4});
-                            }
+                                  //std::string name = "item ";
+                                  //name += std::to_string(inventory::player_items.size());
+                                  //std::vector<i_stat> stats = std::vector<i_stat>();
+                                  //stats.push_back({"atk",0,11});
+                                  //stats.push_back({"def",0,int8_t(rand()%20)});
+                                  //stats.push_back({"wis",0,int8_t(rand()%20)});
+                                  //stats.push_back({"agi",0,int8_t(rand()%20)});
+                                  //stats.push_back({"man",0,int8_t(rand()%20)});
+                                  //stats.push_back({"hea",0,int8_t(rand()%20)});
+                                  //inventory::give({nullptr,name,stats,rand()%4,static_cast<item_type>(rand()%4)});
+                                }
                             break;
                         }
                     case SDL_KEYUP:
@@ -97,8 +103,9 @@ int main()
         player.update_sprite(renderer,clock);
         if(state == STATE_INVENTORY) {
             player.pause();
-            items::inventory::toggle();            
-            items::inventory::preview();
+            inventory::toggle();            
+            inventory::preview();
+            inventory::show_character(); 
             while(SDL_PollEvent(&event)) 
            {
                 switch(event.type)
@@ -106,6 +113,7 @@ int main()
                     case SDL_QUIT:
                         {
                             game_is_running = false;
+                            save::items();
                             break;
                         }
                     case SDL_KEYDOWN:

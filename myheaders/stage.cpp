@@ -10,7 +10,6 @@
 #include <SDL_render.h>
 #include "interaction.cpp"
 #include "music.cpp"
-#include "loading.cpp"
 #include "globals.cpp"
 #include "api.cpp"
 
@@ -26,6 +25,7 @@
 
 namespace stage
 {
+    stage_names id; 
     std::string name;
     std::string music_name;
     std::vector<interaction::static_actor> s_actors;
@@ -123,6 +123,7 @@ namespace stage
     {
         s_actors.clear();
         m_actors.clear();
+        stage::id = stage_name;
         switch(stage_name)
         {
             case TEST:

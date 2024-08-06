@@ -6,7 +6,6 @@
 #include "SDL_render.h"
 #include "music.cpp"
 #include <SDL.h>
-#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>

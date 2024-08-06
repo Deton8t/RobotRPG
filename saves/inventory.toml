@@ -1,0 +1,174 @@
+[[items]]
+name = "PIRANA GUN!"
+type = 2
+sprite-id = 0
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 9
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 13
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 18
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 10
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 12
+percentage = 0
+
+[[items]]
+name = "item 1"
+type = 1
+sprite-id = 3
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 18
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 10
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 12
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 4
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 18
+percentage = 0
+
+[[items]]
+name = "item 2"
+type = 0
+sprite-id = 0
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 2
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 7
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 3
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 7
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 9
+percentage = 0
+
+[[items]]
+name = "item 3"
+type = 3
+sprite-id = 0
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 17
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 0
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 13
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 19
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 18
+percentage = 0
+
+[[items]]
+name = "item 4"
+type = 1
+sprite-id = 3
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 7
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 10
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 13
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 19
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 9
+percentage = 0
+
+[[items]]
+name = "item 5"
+type = 2
+sprite-id = 0
+[[items.stats]]
+name = "atk"
+value = 11
+percentage = 0
+[[items.stats]]
+name = "def"
+value = 9
+percentage = 0
+[[items.stats]]
+name = "wis"
+value = 13
+percentage = 0
+[[items.stats]]
+name = "agi"
+value = 18
+percentage = 0
+[[items.stats]]
+name = "man"
+value = 10
+percentage = 0
+[[items.stats]]
+name = "hea"
+value = 12
+percentage = 0
+

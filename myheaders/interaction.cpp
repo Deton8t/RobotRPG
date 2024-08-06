@@ -14,7 +14,6 @@
 #include "utils.cpp"
 #include "api.cpp"
 #include "globals.cpp"
-#include "loading.cpp"
 #include "dialogue.cpp"
 
 namespace interaction {

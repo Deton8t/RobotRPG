@@ -1,0 +1,12 @@
+[[member]]
+name = Robot
+class = 0
+level = 1
+equip_index = [-1,-1,-1,-1,0]
+BOD = 1
+BST = 1
+CHR = 1
+HYD = 1
+ITG = 1
+SYC = 1
+

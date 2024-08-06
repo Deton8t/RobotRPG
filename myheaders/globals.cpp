@@ -8,7 +8,6 @@
 #define SCREEN_WIDTH_PIXELS 1024
 #define SCREEN_HEIGHT_PIXELS 640
 #include "player.cpp"
-
 #define GLOBAL_TSPRITE_SIZE 32
 
 #define STATE_NORMAL 0
@@ -21,6 +20,7 @@ namespace globals {
     Player* player;
     Clock* clock;
     SDL_Texture* item_sheet;
+
 };
 
 #endif

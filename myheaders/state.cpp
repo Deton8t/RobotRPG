@@ -4,6 +4,8 @@
 #include "SDL.h"
 #include "globals.cpp"
 #include "items.cpp"
+#include "inventory.cpp"
+#include "party.cpp"
 #include <cstdint>
 namespace state {
     namespace in_inventory {
@@ -14,12 +16,14 @@ namespace state {
                     break;
                 case SDL_SCANCODE_DOWN:
                 case SDL_SCANCODE_J:
-                    items::inventory::next();
+                    inventory::next();
                     break;
                 case SDL_SCANCODE_UP:
                 case SDL_SCANCODE_K:
-                    items::inventory::back();
+                    inventory::back();
                     break;
+                case SDL_SCANCODE_E:
+                    party::equip(&party::party[inventory::party_index],inventory::current());
                 default:
                     break;
             }

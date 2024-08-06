@@ -60,8 +60,11 @@ public:
         animated_sprite.current_sprite.position_rect.h = PLAYER_SIZE * h;
     }
 
-    bool interact_toggle;
+    SDL_Rect* get_pos_rect() {
+        return &animated_sprite.current_sprite.position_rect;
+    }
 
+    bool interact_toggle;
     void pause() {
         actions[bindings.forwards] = false;
         actions[bindings.backwards] = false;
@@ -74,8 +77,6 @@ public:
         if(actions.contains(key_sym)) {
             actions[key_sym] = true;
         }
-
-
         if(key_sym == bindings.interact)
         {
             interact_toggle = true;
