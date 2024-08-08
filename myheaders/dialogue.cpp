@@ -48,7 +48,7 @@ namespace dialogue {
         SDL_Rect outline = {0+5,426+5,1024-10,213-10}; 
         if(SDL_SetRenderDrawColor(globals::renderer,255,255,255,255) < 0)
         {
-            std::cout << SDL_GetError() << "\n";
+            std::cout << SDL_GetError() << "hi!\n";
         }
         SDL_RenderFillRect(globals::renderer, &outline); 
         SDL_SetRenderDrawColor(globals::renderer,0,0,0,255);

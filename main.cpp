@@ -47,8 +47,9 @@ int main()
     globals::clock = &clock;
     globals::item_sheet = SDL_CreateTextureFromSurface(renderer, IMG_Load("./images/sprites/item_sheets.png"));
     stage::set(stage_names::TEST);
-    party::start();
     load::items();
+    load::stage();
+    load::party();
     uint8_t state = STATE_NORMAL;
     while(game_is_running)
     {
@@ -103,7 +104,7 @@ int main()
         player.update_sprite(renderer,clock);
         if(state == STATE_INVENTORY) {
             player.pause();
-            inventory::toggle();            
+            inventory::toggle();     
             inventory::preview();
             inventory::show_character(); 
             while(SDL_PollEvent(&event)) 

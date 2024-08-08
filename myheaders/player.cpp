@@ -3,7 +3,9 @@
 #include <SDL.h>
 #include "SDL_rect.h"
 #include "SDL_render.h"
+#include "macros.cpp"
 #include "sprite.cpp"
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 #include <map>
@@ -22,7 +24,7 @@ struct Bindings {
 
 class Player {
 private:
-    uint8_t player_speed;
+    float player_speed;
     bool is_moving_left;
 
 public:
@@ -149,6 +151,10 @@ public:
         collision.x = animated_sprite.current_sprite.position_rect.x+24;
         collision.y = animated_sprite.current_sprite.position_rect.y+40;
         // SDL_RenderDrawRect(renderer, &collision);
+        get_pos_rect()->y = std::min(SCREEN_HEIGHT_PIXELS - get_pos_rect()->h,get_pos_rect()->y);
+        get_pos_rect()->y =  std::max(-34,get_pos_rect()->y);
+        get_pos_rect()->x =  std::max(-20, get_pos_rect()->x);
+        get_pos_rect()->x = std::min(SCREEN_WIDTH_PIXELS -get_pos_rect()->w +20,get_pos_rect()->x);
     }
 
 

@@ -24,6 +24,7 @@ struct RPG_exp {
 };
 
 namespace character {
+
     struct character { 
         std::string name;
         chr_class chr_class;
@@ -32,6 +33,8 @@ namespace character {
         std::map<std::string, total_stat> total_stats;
         std::vector<items::item*> equips;
     };
+
+
     namespace {
         void stat_math(character* chr, items::i_stat *stat) {
             if(stat->is_percentage) {

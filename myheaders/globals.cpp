@@ -3,10 +3,10 @@
 
 #include "SDL_render.h"
 #include <SDL.h>
+#include "SDL_mixer.h"
 #include <string>
+#include "macros.cpp"
 
-#define SCREEN_WIDTH_PIXELS 1024
-#define SCREEN_HEIGHT_PIXELS 640
 #include "player.cpp"
 #define GLOBAL_TSPRITE_SIZE 32
 
@@ -20,6 +20,7 @@ namespace globals {
     Player* player;
     Clock* clock;
     SDL_Texture* item_sheet;
+    Mix_Music* current_song;
 
 };
 

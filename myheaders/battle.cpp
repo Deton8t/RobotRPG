@@ -36,7 +36,6 @@ namespace battle
 {
     std::vector<enemy> enemies;
     std::vector<party_member> party;
-
     void render_enemies(){
         switch(enemies.size())
         {

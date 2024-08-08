@@ -59,7 +59,6 @@ namespace inventory {
             pos.x += 38;
             pos.y += 3;
             menus::display_text(pos,_item.name);
-
         }
     }
     void preview() {
@@ -99,6 +98,7 @@ namespace inventory {
                 );        
         int i = 0;
         SDL_Rect table_rect = outer; 
+        character::calculate_stats(current);
         for(auto& [key,value] : current->total_stats) {
             u_int8_t col = i / 2;
             u_int8_t row = i % 2;

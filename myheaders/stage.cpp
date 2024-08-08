@@ -123,7 +123,6 @@ namespace stage
     {
         s_actors.clear();
         m_actors.clear();
-        stage::id = stage_name;
         switch(stage_name)
         {
             case TEST:
