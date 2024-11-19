@@ -3,11 +3,15 @@
 #include "./globals.cpp"
 #include "./sprite.cpp"
 #include "./font.cpp"
+#include "SDL_mixer.h"
 #include "SDL_render.h"
 #include "music.cpp"
 #include <SDL.h>
+#include <chrono>
+#include <exception>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
 #define DIALOGUE_SPRITE_X 10
@@ -32,13 +36,16 @@ namespace dialogue {
         index = 0;
         dialogue = _dialogue;
         talking_sprite = _talking_sprite;
-        music::play_sound_from_file("./sounds/dialogue_beep.mp3");
+        music::play_sound_from_file("./sounds/dialogue_beep.mp3",3);
     }
 
     void stop() {
         index = -1;
         dialogue.clear();
         talking_sprite = nullptr;
+    }
+    void idle() {
+        index = -1;
     }
     void render_box() {
         if(index == -1)
@@ -75,9 +82,10 @@ namespace dialogue {
 
     void advance() {
         index++;
-        music::play_sound_from_file("./sounds/dialogue_beep.mp3");
-        if(index >= dialogue.size())
+        music::play_sound_from_file("./sounds/dialogue_beep.mp3", 3);
+        if(index >= dialogue.size()) {
             stop();
+        }
     }
 
     void clear() {
@@ -85,6 +93,7 @@ namespace dialogue {
         dialogue.clear();
         talking_sprite = nullptr;
     }
+    
 };
 
 #endif

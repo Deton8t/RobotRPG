@@ -16,11 +16,17 @@ public:
     SDL_Texture* sprite_sheet;
     SDL_Rect frame;
     SDL_Rect position_rect;
+    std::string file;
     Sprite(){}
+    void destroy() {
+        SDL_DestroyTexture(sprite_sheet);
+    }
     Sprite(SDL_Renderer* _renderer, std::string file_path, int width, int height,int x, int y)
     {
-        sprite_sheet = SDL_CreateTextureFromSurface(_renderer,IMG_Load(file_path.c_str()));
-
+        auto img = IMG_Load(file_path.c_str());
+        sprite_sheet = SDL_CreateTextureFromSurface(_renderer,img);
+        SDL_FreeSurface(img);
+        file = file_path;
         if(sprite_sheet == nullptr)
         {
             std::cout << SDL_GetError() << "\n"; 
@@ -141,4 +147,6 @@ private:
 };
 
 #endif
+
+                  
 

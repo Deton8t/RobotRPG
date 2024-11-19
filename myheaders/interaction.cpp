@@ -34,8 +34,6 @@ namespace interaction {
         Sprite sprite;
         std::map<std::string, std::string>* string_fields = nullptr;
         std::map<std::string, int>* num_fields = nullptr;
-        void (*on_interact)() = nullptr;
-        void (*on_collide)() = nullptr;
     };
 
     struct moving_actor{
@@ -44,8 +42,6 @@ namespace interaction {
         Animated_Sprite anim_sprite;
         std::map<std::string, std::string>* string_fields = nullptr;
         std::map<std::string, int>* num_fields = nullptr;
-        void (*update)();
-
     };
 
     void init_string_fields(static_actor* actor){
@@ -92,6 +88,7 @@ namespace interaction {
                 //std::cout << temp << "\n";
                 parsed.push_back(temp);
             }
+            ifs.close();
             return parsed;
 
         }
@@ -134,8 +131,9 @@ namespace interaction {
                     }
                     dialogue::render_box();
                 }
-                else
-                    dialogue::stop();
+                else {
+                    dialogue::idle();
+                }
             }
         }
     }
@@ -152,8 +150,6 @@ namespace interaction {
         return s_actor;
     }
 
-    std::vector<static_actor*> statics;
-    std::vector<moving_actor> mobiles;
 
     void trigger_fight(enemy_type enemy)
     {

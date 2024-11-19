@@ -59,47 +59,48 @@ namespace inventory {
             pos.x += 38;
             pos.y += 3;
             menus::display_text(pos,_item.name);
+            
         }
     }
     void preview() {
-        item* current = &player_items[index];
+        item current = player_items[index];
         menus::render_ui_box(SCREEN_WIDTH_PIXELS/2+10, 5, SCREEN_WIDTH_PIXELS/2-20, 39*15/2);
-        SDL_Rect name_box = {(SCREEN_WIDTH_PIXELS/4) * 3 - ((int)current->name.size()/2*20),
+        SDL_Rect name_box = {(SCREEN_WIDTH_PIXELS/4) * 3 - ((int)current.name.size()/2*20),
             20, 
             0,
             0};
-        menus::display_text(name_box,current->name,20);
+        menus::display_text(name_box,current.name,20);
         SDL_Rect stat_table_box = SDL_Rect();
         // I luv u jaden <3
-        std::vector<i_stat>* current_s = &current->stats; 
-        for(int i = 0; i < current_s->size(); i++)
+        std::vector<i_stat> current_s = current.stats; 
+        for(int i = 0; i < current_s.size(); i++)
         {
             u_int8_t col = i / 2;
             u_int8_t row = i % 2;
             stat_table_box.x = SCREEN_WIDTH_PIXELS/2+70 + (col * SCREEN_WIDTH_PIXELS/8 + 16);
             stat_table_box.y = 100 + row *42;
-            menus::display_text(stat_table_box, current_s->at(i).name + " " + std::to_string(current_s->at(i).value) );
+            menus::display_text(stat_table_box, current_s.at(i).name + " " + std::to_string(current_s.at(i).value) );
         }
         menus::display_text({SCREEN_WIDTH_PIXELS/2+(16*8), SCREEN_HEIGHT_PIXELS/2 - 70, 0,0}, "(E)quip (C)ompare");
     }
 
     void show_character() {
         SDL_Rect outer = menus::render_ui_box(SCREEN_WIDTH_PIXELS/2+10,SCREEN_HEIGHT_PIXELS/2-20,SCREEN_WIDTH_PIXELS/2-20,SCREEN_HEIGHT_PIXELS/2-30);
-        character::character* current = &party::party[party_index];
+        character::character current = party::party[party_index];
         menus::display_text(
                 {
-                outer.x + outer.w/2 - ((int)current->name.size()/2)*20,
+                outer.x + outer.w/2 - ((int)current.name.size()/2)*20,
                 outer.y+5,
                 0,
                 0
                 }, 
-                current->name,
+                current.name,
                 20
                 );        
         int i = 0;
         SDL_Rect table_rect = outer; 
-        character::calculate_stats(current);
-        for(auto& [key,value] : current->total_stats) {
+        character::calculate_stats(&current);
+        for(auto& [key,value] : current.total_stats) {
             u_int8_t col = i / 2;
             u_int8_t row = i % 2;
             table_rect.x = outer.x+70 + (col * outer.w/3 - 30);
@@ -118,14 +119,14 @@ namespace inventory {
         menus::display_text(table_rect, " BOOTS:",12);
         table_rect.y += 28;
         menus::display_text(table_rect, "WEAPON:",12);
-        current->equips[4] = &player_items[0];
+        current.equips[4] = &player_items[0];
         table_rect.x = outer.x + 15 + 12*8;
         table_rect.y = outer.y + 140;
-        for(int i = 0; i < current->equips.size(); i++) 
+        for(int i = 0; i < current.equips.size(); i++) 
         {
-            if(current->equips[i] != nullptr)
+            if(current.equips[i] != nullptr)
             {
-                menus::display_text(table_rect, current->equips[i]->name, 12 );
+                menus::display_text(table_rect, current.equips[i]->name, 12 );
             }
             table_rect.y += 28;
         }

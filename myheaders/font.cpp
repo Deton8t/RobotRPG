@@ -25,13 +25,19 @@ namespace font {
 
     void render(TTF_Font* font, SDL_Rect* dst, std::string message) {
         //dst->w = message.size()*20;
-        SDL_Texture* text = SDL_CreateTextureFromSurface(globals::renderer, TTF_RenderUTF8_Solid(font,message.c_str(), {255,255,255,255}));
+        
+        
+        SDL_Surface* t_surface = TTF_RenderUTF8_Solid(font,message.c_str(), {255,255,255,255});
+        SDL_Texture* text = SDL_CreateTextureFromSurface(globals::renderer, t_surface);
         if(text == NULL)
         {
             std::cout << SDL_GetError() << "\n";
 
         }
         SDL_RenderCopy(globals::renderer, text, NULL, dst);
+
+        SDL_FreeSurface(t_surface);
+        SDL_DestroyTexture(text);
     }
 
 }

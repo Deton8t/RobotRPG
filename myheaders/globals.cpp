@@ -10,8 +10,10 @@
 #include "player.cpp"
 #define GLOBAL_TSPRITE_SIZE 32
 
+// STATE GLOBALS
 #define STATE_NORMAL 0
 #define STATE_INVENTORY 1
+#define STATE_BATTLE 2
 
 namespace globals {
 

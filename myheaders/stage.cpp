@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 #include <SDL_render.h>
 #include "interaction.cpp"
@@ -56,6 +57,7 @@ namespace stage
         void tiles_from_csv(std::string filename)
         {
             tile_nums.clear();
+            tile_nums.shrink_to_fit();
             std::fstream tile_file;
             std::string complete_filename = "./stages/";
             complete_filename.append(filename);
@@ -74,6 +76,8 @@ namespace stage
                 //std::cout << int_from_string(line) << "\n";
                 tile_nums.push_back(int_from_string(line));
             }
+            tile_file.close();
+            line.clear();
         }
     }
 
@@ -121,50 +125,80 @@ namespace stage
 
     void set(stage_names stage_name)
     {
+        for(auto actor : s_actors) {
+            if(actor.num_fields != nullptr)
+            {
+                actor.num_fields->clear();
+                delete(actor.num_fields);
+            }
+            if(actor.string_fields != nullptr)
+            {
+                actor.string_fields->clear();
+                delete(actor.string_fields);
+            }
+            if(actor.sprite.sprite_sheet) {
+                SDL_DestroyTexture(actor.sprite.sprite_sheet);
+            }
+
+        }
         s_actors.clear();
+        s_actors.shrink_to_fit();
         m_actors.clear();
+        m_actors.shrink_to_fit();
+        if(tileset != nullptr) {
+            SDL_DestroyTexture(tileset);
+            std::cout << SDL_GetError() << "\n";
+        }
+        music::close_music();
+        std::this_thread::sleep_for(std::chrono::nanoseconds(20));
         switch(stage_name)
         {
             case TEST:
-                name = "Test";
-                music_name = "ForJaden.mp3";
-                s_actors.push_back(interaction::create_static_actor(4*32,5*32,32,32,"images/sprites/chest.png"));
-                interaction::make_door(&s_actors[0],stage_names::RANDOM);
-                s_actors.push_back(interaction::create_static_actor(8*32,5*32,32,32,"images/sprites/chest.png"));
-                interaction::make_dialogue(&s_actors[1], "images/sprites/chest.png", "./stages/Test/dialogue/chest.txt");
-                tileset = SDL_CreateTextureFromSurface(renderer, IMG_Load("./images/tilesheets/TestTiles.png"));
-                tiles_from_csv("Test/Test.csv");
-                music::play_music(music_name, true);
-                break;
-
+                {
+                    name = "Test";
+                    music_name = "ForJaden.mp3";
+                    s_actors.push_back(interaction::create_static_actor(4*32,5*32,32,32,"images/sprites/chest.png"));
+                    interaction::make_door(&s_actors[0],stage_names::RANDOM);
+                    s_actors.push_back(interaction::create_static_actor(8*32,5*32,32,32,"images/sprites/chest.png"));
+                    interaction::make_dialogue(&s_actors[1], "images/sprites/chest.png", "./stages/Test/dialogue/chest.txt");
+                    SDL_Surface* img1 = IMG_Load("./images/tilesheets/TestTiles.png");
+                    tileset = SDL_CreateTextureFromSurface(renderer, img1);
+                    SDL_FreeSurface(img1);
+                    tiles_from_csv("Test/Test.csv");
+                    music::play_music(music_name, true);
+                    break;
+                }
             case RANDOM:
-            default:
-                name = "Random";
-                music_name = "ForJaden.mp3";
-                tileset = SDL_CreateTextureFromSurface(renderer, IMG_Load("./images/tilesheets/TestTiles.png"));
-                if(tileset == NULL)
                 {
-                    std::cout << SDL_GetError();
-                    std::cout << "\n";
+                    name = "Random";
+                    music_name = "ForJaden.mp3";
+                    SDL_Surface* temp_img =IMG_Load("./images/tilesheets/TestTiles.png"); 
+                    tileset = SDL_CreateTextureFromSurface(renderer,temp_img );
+                    SDL_FreeSurface(temp_img);
+                    if(tileset == NULL)
+                    {
+                        std::cout << SDL_GetError();
+                        std::cout << "\n";
+                    }
+                    tile_nums.clear();
+                    for(int i = 0; i < 20*32; i++)
+                    {
+                        tile_nums.push_back(random()%4);
+                    }
+                    music::play_music(music_name, true);
+                    s_actors.push_back(interaction::create_static_actor(10*32,7*32,32,32,"images/sprites/chest.png"));
+                    interaction::make_door(&s_actors[0],stage_names::TEST);
+                    break;
                 }
-                tile_nums.clear();
-                for(int i = 0; i < 20*32; i++)
-                {
-                    tile_nums.push_back(random()%4);
-                }
-                music::play_music(music_name, true);
-                s_actors.push_back(interaction::create_static_actor(10*32,7*32,32,32,"images/sprites/chest.png"));
-                interaction::make_door(&s_actors[0],stage_names::TEST);
-                break;
         }
     }
 
     void handle_actors()
     {  
-      for(interaction::static_actor actor : s_actors)
-      {
-          interaction::tag_logic(&actor);
-      }
+        for(interaction::static_actor actor : s_actors)
+        {
+            interaction::tag_logic(&actor);
+        }
     }
 
     void update()

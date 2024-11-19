@@ -10,9 +10,7 @@ namespace menus {
     {
         text_box.w = text.size() * pt;
         text_box.h = pt*2;
-        SDL_SetRenderDrawColor(globals::renderer, 255,255,255,255);
         font::render(font::cave_story, &text_box, text);
-
     }
     // 16pt by default
     void display_text(SDL_Rect text_box, std::string text)
@@ -28,6 +26,10 @@ namespace menus {
         SDL_SetRenderDrawColor(globals::renderer, 0,0,0,255);
         SDL_RenderFillRect(globals::renderer, &black);
         return {x,y,w,h};
+    }
+
+    SDL_Rect render_ui_box(SDL_Rect r) {
+        return render_ui_box(r.x,r.y,r.w,r.h);
     }
 }
 
